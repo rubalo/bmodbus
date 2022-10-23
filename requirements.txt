@@ -1,4 +1,0 @@
-click
-dataclasses-json
-pymodbus
-pyserial-asyncio

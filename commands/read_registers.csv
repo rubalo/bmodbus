@@ -1,0 +1,14 @@
+# Command are using the following format
+# Function, address, value
+# With :
+# Function = (r , w, s) -> Read / Write / sleep
+# address = Register address (r, w functions) or Number of seconds
+#           to sleep (s function)
+# Value = Number to register to read (r function) or value to write (w function)
+
+# Read from register 30001 to register 25
+# Those are the input registers
+r, 30001, 25
+
+# Read from register 40001 to register 40002
+r, 40001, 2

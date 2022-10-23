@@ -1,70 +1,53 @@
 # modbus
 
 ## Requirements
-python >= 3.7
+Powershell
+
+ Based on modpoll : https://www.modbusdriver.com/modpoll.html
 
 ## Installation
 
-Create a virtual environment
+You might need to authorize powershell scripts for your session :
 
-    virtualenv venv
-    source ./venv/bin/activate
+Open a powershell Terminal
+Run the following command :
 
-Install requirements 
-
-    pip install -r requirements.txt
+    PowerShell -ExecutionPolicy Bypass
 
 ## Usage
 
+Go to the code root folder
+
+run :
+
+    .\bmodbus.ps1
+
 ### Configuration
 
+Edit the file bmodbus.ps1 to change the baudrate / Parity / Slave address ...
 
-First, you need to create a configuration for the modbus communication. 
+### Batch files
 
-Create a configuration file for modbus over tcp
+Create Batch files in the \commands folder : 
 
-    python ./src/main.py create-tcp-config
+Read Command :
 
+    r, <REGISTER_ADDRESS_START>, <NUMBER_OF_REGISTER_TO_READ>
 
-Create a configuration file for modbus over serial
+Write Command :
 
-    python ./src/main.py create-serial-config
+    w, <REGISTER_ADDRESS>, <VALUE>
 
-### Read / write registers
+Sleep Command :
 
-To read input registers 
+    s, <SECONDS>
 
-    python src/main.py do -c config_tcp.json  --slave <SLAVE_NUMBER> read-input-register <REGISTER_ADDRESS>
-
- 
-To read holding registers 
-
-    python src/main.py do -c config_tcp.json  --slave <SLAVE_NUMBER> read-holding-register <REGISTER_ADDRESS>
-
-
-
-To write holding registers 
-
-    python src/main.py do -c config_tcp.json  --slave <SLAVE_NUMBER> write-holding-register <REGISTER_ADDRESS> <VALUE>
-
-### Batch Mode
-
-Create a file with all the commands
-
-Format : Function, address, value
-
-Functions are :
-* 4 : Read Input Registers
-* 3 : Read Holding Registers
-* 6 : Write Single Holding Register
-* 999: Sleep for x seconds
 
 Example : 
 
-4,30001, # Read input register 30001
-6,40001, 10 # Write 10 in the holdind register 40001
-999,10, # Sleeps for 10 seconds before the next command
-
-To run the batch
-
-    python src/main.py do -c config_tcp.json  --slave <SLAVE_NUMBER> batch <COMMAND_FILE> 
+    # Write register 1 with value 10
+    w, 1, 10
+    # Sleeps for 10 seconds
+    s, 10
+    # Read registers 1 to 4
+    r, 1 , 4

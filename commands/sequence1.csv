@@ -1,0 +1,29 @@
+# Command are using the following format
+# Function, address, value
+# With :
+# Function = (r , w, s) -> Read / Write / sleep
+# address = Register address (r, w functions) or Number of seconds
+#           to sleep (s function)
+# Value = Number to register to read (r function) or value to write (w function)
+
+
+# Example of sequence
+# Disconnect
+w, 40001, 0
+
+# Standby
+w, 40001, 1
+
+# Sleeps for 2 seconds
+s, 2
+
+# Charge Current -0.4 / Power -20
+w, 40002, 28408
+w, 40001, 2
+
+# Sleeps for 2 seconds
+s, 3
+
+# Standby
+w, 40001, 1
+
