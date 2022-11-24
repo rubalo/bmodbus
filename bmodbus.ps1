@@ -1,6 +1,6 @@
 clear-host
 
-$comm = "COM5"
+$comm = "COM10"
 $baudrate = "19200"
 $parity = "none"
 $command_folder = ".\commands\"
@@ -44,6 +44,28 @@ function Get-Batch {
 
 }
 
+function Get-Register-Type {
+    param (
+        $register
+    )
+
+    if (  $register  -eq  1) {
+        # 8 COILS
+        return "-t 0"
+    } elseif ( $register -eq 2 ) {
+        # 8 DISCRETE INPUTS
+        return "-t 1" 
+    } elseif ( $register -eq 3 ) {
+        # 64 HOLDING REGISTERS
+        return "-t 4" 
+    } elseif ( $register -eq 4 ) {
+        # 64 INPUT REGISTERS
+        return "-t 3" 
+    } else {
+        Write-Host("Wrong register Number $register") -ForegroundColor Red
+    } 
+    return ""
+}
 function Invoke-Shell {
     param(
         $command
@@ -57,11 +79,13 @@ function Invoke-Shell {
 function Invoke-Command {
     param(
         $action,
+        $type,
         $address,
         $value
     )
 
-    $baseCommand = "$exe -b $baudrate -0 -m $rtuProtocol -p $parity -a $slaveAddress -1 $subCommand"
+    $registerMod = Get-Register-Type($type)
+    $baseCommand = "$exe -b $baudrate -0 -m $rtuProtocol -p $parity -a $slaveAddress $registerMod -1 $subCommand"
         
     if ($action -eq 'r'){
         $endAddress = [int]$address + [int]$value - 1
@@ -71,9 +95,9 @@ function Invoke-Command {
     }
     elseif ($action -eq 'w') {
         Write-Host "Writing register $address with $value" -ForegroundColor Blue
-        $command  = "$baseCommand -r $address $comm $value" 
+        $command  = "$baseCommand -c 1 -r $address $comm $value" 
         Invoke-Shell $command
-        Invoke-Command 'r' $address 1
+        Invoke-Command 'r' $type $address 1
     }
     elseif ($action -eq 's'){
         Write-Host "Sleeping for $address seconds" -ForegroundColor Blue
@@ -98,10 +122,11 @@ function Invoke-Commands {
         
         $nline = $line.Split(",") #-replace """",""
         $action = $nline[0]
-        $address = $nline[1]
-        $value = $nline[2]
+        $type = [int]$nline[1]
+        $address = $nline[2]
+        $value = $nline[3]
   
-        Invoke-Command $action $address $value
+        Invoke-Command $action $type $address $value
     }
 }
 

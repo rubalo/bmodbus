@@ -1,0 +1,37 @@
+# Command are using the following format
+# Function, Type, address, value
+# With :
+# Function = (r , w, s) -> Read / Write / sleep
+# Type = (1, 2, 3, 4) -> COIL / DISCRETE REGISTER / HOLDING REGISTERS / INPUT REGISTERS 
+# address = Register address (r, w functions) or Number of seconds
+#           to sleep (s function)
+# Value = Number to register to read (r function) or value to write (w function)
+
+
+# Example of sequence
+
+# Read input registers from 1 to 32
+# Request JC: 01 04 00 01 00 20
+# Request :   01 04 00 01 00 20 A0 12 
+# Response : 01 04 40 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 7C 49 
+# r, 4, 1, 32
+
+# Write single register with command 0
+# Request JC : 01 06 00 01 10
+#                01 06 07 D0 DE AD
+# Request :    01 06 00 01 00 00 D8 0A  
+# Response : 
+# w, 3, 1, 16
+
+
+
+
+
+#################################################
+r, 4, 16, 16
+w, 3, 1, 2
+w, 3, 2, 5000
+
+
+
+
