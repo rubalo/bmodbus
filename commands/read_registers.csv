@@ -6,9 +6,9 @@
 #           to sleep (s function)
 # Value = Number to register to read (r function) or value to write (w function)
 
-# Read from register 30001 to register 25
+# Read from input register 1 to register 25
 # Those are the input registers
-r, 30001, 25
+r, 4, 1, 25
 
-# Read from register 40001 to register 40002
-r, 40001, 2
+# Read from holding register 1 to register 2
+r, 3, 1, 2

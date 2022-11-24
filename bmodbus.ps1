@@ -1,6 +1,6 @@
 clear-host
 
-$comm = "COM10"
+$comm = "COM1"
 $baudrate = "19200"
 $parity = "none"
 $command_folder = ".\commands\"

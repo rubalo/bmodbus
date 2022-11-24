@@ -1,29 +1,32 @@
 # Command are using the following format
-# Function, address, value
+# Function, type, address, value
 # With :
 # Function = (r , w, s) -> Read / Write / sleep
+# Type = (1, 2, 3, 4) -> COIL / DISCRETE REGISTER / HOLDING REGISTERS / INPUT REGISTERS 
 # address = Register address (r, w functions) or Number of seconds
 #           to sleep (s function)
 # Value = Number to register to read (r function) or value to write (w function)
 
 
 # Example of sequence
-# Disconnect
-w, 40001, 0
+# Disconnect (Write 0 to holding regsiter 1)
+w, 4, 1, 0
 
-# Standby
-w, 40001, 1
+# Standby (Write 1 to holding register 1)
+w, 4, 1, 1
 
 # Sleeps for 2 seconds
 s, 2
 
 # Charge Current -0.4 / Power -20
-w, 40002, 28408
-w, 40001, 2
+# Write value 28408 to holding register 2
+w, 4, 2, 28408
+# Charge command (Write command 2 to holding register 1)
+w, 4, 1, 2
 
 # Sleeps for 2 seconds
 s, 3
 
 # Standby
-w, 40001, 1
+w, 4, 1, 1
 
