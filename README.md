@@ -44,11 +44,12 @@ Sleep Command :
     s, <SECONDS>
 
 With :
-REGISTER_TYPE <int>=
-1: COILS
-2: DISCRETE INPUT REGISTERS
-3: HOLDING REGISTERS
-4: INPUT REGISTERS
+
+    REGISTER_TYPE <int>=
+        1: COILS
+        2: DISCRETE INPUT REGISTERS
+        3: HOLDING REGISTERS
+        4: INPUT REGISTERS
 
     VALUE <int> =
         Int value to write
