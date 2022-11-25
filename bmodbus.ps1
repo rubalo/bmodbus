@@ -85,7 +85,7 @@ function Invoke-Command {
     )
 
     if ($action -eq 's'){
-        Write-Host "Sleeping for $address seconds" -ForegroundColor Blue
+        Write-Host "Sleeping for $type seconds" -ForegroundColor Blue
         Start-Sleep -Seconds $type
     }else {
 
