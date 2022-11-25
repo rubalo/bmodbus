@@ -84,27 +84,30 @@ function Invoke-Command {
         $value
     )
 
-    $registerMod = Get-Register-Type($type)
-    $baseCommand = "$exe -b $baudrate -0 -m $rtuProtocol -p $parity -a $slaveAddress $registerMod -1 $subCommand"
-        
-    if ($action -eq 'r'){
-        $endAddress = [int]$address + [int]$value - 1
-        Write-Host "Reading registers $address - $endAddress" -ForegroundColor Blue
-        $command = "$baseCommand -r $address -c $value $comm"
-        Invoke-Shell $command
-    }
-    elseif ($action -eq 'w') {
-        Write-Host "Writing register $address with $value" -ForegroundColor Blue
-        $command  = "$baseCommand -c 1 -r $address $comm $value" 
-        Invoke-Shell $command
-        Invoke-Command 'r' $type $address 1
-    }
-    elseif ($action -eq 's'){
+    if ($action -eq 's'){
         Write-Host "Sleeping for $address seconds" -ForegroundColor Blue
-        Start-Sleep -Seconds $address
-    }
-    else {
+        Start-Sleep -Seconds $type
+    }else {
+
+
+        $registerMod = Get-Register-Type($type)
+        $baseCommand = "$exe -b $baudrate -0 -m $rtuProtocol -p $parity -a $slaveAddress $registerMod -1 $subCommand"
+
+        if ($action -eq 'r'){
+            $endAddress = [int]$address + [int]$value - 1
+            Write-Host "Reading registers $address - $endAddress" -ForegroundColor Blue
+            $command = "$baseCommand -r $address -c $value $comm"
+            Invoke-Shell $command
+        }
+        elseif ($action -eq 'w') {
+            Write-Host "Writing register $address with $value" -ForegroundColor Blue
+            $command  = "$baseCommand -c 1 -r $address $comm $value" 
+            Invoke-Shell $command
+            Invoke-Command 'r' $type $address 1
+        }
+        else {
         Write-Host "Action $action not recognized" -ForegroundColor Red
+        }
     }
 }
 
